@@ -4,7 +4,7 @@ import cv2 as cv
 
 
 class SpriteClassifier:
-    def __init__(self, threshold, sprite, width, height):
+    def __init__(self, threshold, sprite, width=1, height=1):
         self.threshold = threshold
 
         if isinstance(sprite, str):
@@ -28,4 +28,4 @@ class SpriteClassifier:
             center_point = (top_left[0] + w / 2, top_left[1] + h / 2)
             x = math.floor(center_point[0] / self.dx)
             y = math.floor(center_point[1] / self.dy)
-            return (x, y, top_left, bottom_right)
+            return (max_val, (x, y), top_left, bottom_right)

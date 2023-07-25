@@ -1,9 +1,8 @@
 import argparse
 
 import cv2 as cv
-from matplotlib import pyplot as plt
 
-from action import SpriteClassifier
+from action import AutoPicker
 
 
 def imread(fname):
@@ -16,21 +15,19 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--sprite')
     parser.add_argument('-s', '--size')
-    parser.add_argument('fname')
+    parser.add_argument('--bbox')
     args = parser.parse_args()
 
     sprite = imread(args.sprite)
+    bbox = tuple(map(int, args.bbox.split(',')))
     width, height = map(int, args.size.split('x'))
-    cls = SpriteClassifier(0.9, sprite, width, height)
 
-    img = imread(args.fname)
-    res = cls.classify(img)
-
-    if res is not None:
+    def post_handler(res, *args):
         print(res)
-        cv.rectangle(sprite, res[2], res[3], 0, 2)
-        plt.imshow(sprite, cmap='gray')
-        plt.show()
+    picker = AutoPicker(0.1, post_handler, bbox, 0.9,
+                        sprite, width, height)
+    picker.start()
+    picker.join()
 
 
 if __name__ == '__main__':
