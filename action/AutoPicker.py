@@ -7,10 +7,10 @@ from .SpriteClassifier import SpriteClassifier
 
 
 class AutoPicker(CommonAction):
-    def __init__(self, period, post_handler, bbox, *args, **kwargs):
+    def __init__(self, period, bbox, post_handler, *args, **kwargs):
         super().__init__(period)
-        self.post_handler = post_handler
         self.bbox = bbox
+        self.post_handler = post_handler
         self.sprite = SpriteClassifier(*args, **kwargs)
 
     def run(self):

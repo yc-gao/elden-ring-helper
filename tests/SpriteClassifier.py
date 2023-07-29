@@ -21,7 +21,7 @@ def main():
 
     sprite = imread(args.sprite)
     width, height = map(int, args.size.split('x'))
-    cls = SpriteClassifier(0.9, sprite, width, height)
+    cls = SpriteClassifier(sprite, (width, height))
 
     img = imread(args.fname)
     res = cls.classify(img)

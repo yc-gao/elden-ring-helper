@@ -24,8 +24,8 @@ def main():
 
     def post_handler(res, *args):
         print(res)
-    picker = AutoPicker(0.1, post_handler, bbox, 0.9,
-                        sprite, width, height)
+    picker = AutoPicker(0.1, bbox, post_handler,
+                        sprite, (width, height))
     picker.start()
     picker.join()
 
