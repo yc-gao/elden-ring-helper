@@ -17,10 +17,10 @@ class SpriteDetector:
             sprite = cv.cvtColor(sprite, cv.COLOR_BGR2GRAY)
         h, w = sprite.shape[:2]
         dx, dy = w / size[0], h / size[1]
-        
+
         res = cv.matchTemplate(sprite, self.temp, cv.TM_CCORR_NORMED)
         _, max_val, _, max_loc = cv.minMaxLoc(res)
-        if max_val > self.threshold:
+        if max_val > threshold:
             top_left = max_loc
             bottom_right = (top_left[0] + self.w, top_left[1] + self.h)
             center_point = (top_left[0] + self.w / 2, top_left[1] + self.h / 2)
