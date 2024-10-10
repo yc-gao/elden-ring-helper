@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+import os
+import pathlib
+import shutil
+import argparse
+from datetime import datetime
+import time
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--depth', type=int, default=20)
+    parser.add_argument('--bdir', type=str, default='back')
+    parser.add_argument('action')
+    parser.add_argument('sdir')
+
+    return parser.parse_args()
+
+
+def do_back(options):
+    pathlib.Path(options.bdir).mkdir(parents=True, exist_ok=True)
+    name = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+
+    shutil.rmtree(os.path.join(options.bdir, name), ignore_errors=True)
+    shutil.copytree(options.sdir, os.path.join(options.bdir, name))
+    print(f"back {options.sdir} to {os.path.join(options.bdir, name)}")
+
+    backs = os.listdir(options.bdir)
+    backs.sort()
+    while len(backs) > options.depth:
+        shutil.rmtree(os.path.join(options.bdir, backs[0]), ignore_errors=True)
+        backs = backs[1:]
+        print(f"overflow depth, deleting back {
+              os.path.join(options.bdir, backs[0])}")
+
+
+def do_pop(options):
+    backs = os.listdir(options.bdir)
+    if not backs:
+        return
+    back = backs[-1]
+
+    shutil.rmtree(options.sdir, ignore_errors=True)
+    shutil.copytree(os.path.join(options.bdir, back), options.sdir)
+    shutil.rmtree(os.path.join(options.bdir, back), ignore_errors=True)
+
+
+def main():
+    options = parse_args()
+    if options.action == 'back':
+        while True:
+            do_back(options)
+            time.sleep(1)
+    elif options.action == 'pop':
+        do_pop(options)
+    else:
+        raise RuntimeError(f"undefined action {options.action}")
+
+
+if __name__ == '__main__':
+    main()
