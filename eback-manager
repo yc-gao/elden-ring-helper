@@ -50,7 +50,7 @@ def main():
     if options.action == 'back':
         while True:
             do_back(options)
-            time.sleep(1)
+            time.sleep(10)
     elif options.action == 'pop':
         do_pop(options)
     else:
