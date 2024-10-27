@@ -34,6 +34,7 @@ def do_back(options):
                     options.bdir, backs[0]), ignore_errors=True)
                 backs = backs[1:]
                 print(f"overflow depth, deleting back {os.path.join(options.bdir, backs[0])}")
+            time.sleep(10)
         except KeyboardInterrupt:
             break
         except Exception as e:
