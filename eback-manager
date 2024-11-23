@@ -18,9 +18,9 @@ def parse_args():
 
 
 def do_back(options):
+    pathlib.Path(options.bdir).mkdir(parents=True, exist_ok=True)
     while True:
         try:
-            pathlib.Path(options.bdir).mkdir(parents=True, exist_ok=True)
             name = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
             shutil.rmtree(os.path.join(options.bdir, name), ignore_errors=True)
